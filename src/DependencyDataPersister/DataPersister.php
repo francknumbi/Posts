@@ -26,7 +26,7 @@ class DataPersister implements ContextAwareDataPersisterInterface
 
     public function remove($data, array $context = [])
     {
-        // TODO: Implement remove() method.
+        $this->repository->remove($data);
     }
 
 }

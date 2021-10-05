@@ -7,11 +7,19 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use phpDocumentor\Reflection\DocBlock\Description;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ApiResource(
     collectionOperations: ['get','post'],
-    itemOperations: ['get'],
+    itemOperations: [
+        'get',
+        'put'=>[
+            'denormalization_context'=>[
+                'groups'=>['put:Dependency']
+            ]
+        ]],
     paginationEnabled: false
 )]
 class Dependency
@@ -21,18 +29,25 @@ class Dependency
     )
     ]
     private string $uuid;
-    #[ApiProperty(
+    #[
+        ApiProperty(
         description: 'Nom de la dependance'
-    ),
-        length(min:2)
+        ),
+        length(min:2),
+        NotBlank()
     ]
     private string $name;
-    #[ApiProperty(
-        description:'version de la dependance',
-        openapiContext:[
-            'example'=>'5.2.*'
-        ]
-    )]
+    #[
+        ApiProperty(
+            description:'version de la dependance',
+            openapiContext:[
+                'example'=>'5.2.*'
+            ]
+        ),
+        length(min:2),
+        NotBlank(),
+        Groups(['put:Dependency'])
+    ]
     private string $version;
 
 
@@ -58,6 +73,14 @@ class Dependency
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $version
+     */
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
     }
 
     /**
