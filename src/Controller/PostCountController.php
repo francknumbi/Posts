@@ -10,9 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PostCountController
 {
-    public function __construct(private PostRepository $postRepository)
-    {
+    private $postRepository;
 
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository=$postRepository;
     }
     public  function __invoke(Request $request):int
     {

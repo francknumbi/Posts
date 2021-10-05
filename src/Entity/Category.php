@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Constraints\Length;
         ]
     ]
 )]
+
 class Category
 {
     /**

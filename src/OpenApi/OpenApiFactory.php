@@ -9,9 +9,11 @@ use ApiPlatform\Core\OpenApi\OpenApi;
 
 class OpenApiFactory implements OpenApiFactoryInterface
 {
-    public function __construct(private OpenApiFactoryInterface $decorated)
-    {
+    private $decorated;
 
+    public function __construct(OpenApiFactoryInterface $decorated)
+    {
+        $this->decorated=$decorated;
     }
 
     public function __invoke(array $context = []): OpenApi
